@@ -12,7 +12,7 @@ namespace Final_Project.Data
         {
         }
 
-        // DbSet properties represent database tables
+        //// DbSet properties represent database tables
         public DbSet<Book> Books { get; set; }
         public DbSet<Author> Authors { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
@@ -23,6 +23,17 @@ namespace Final_Project.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
 
         {
+
+            modelBuilder.Entity<Book>()
+                .Property(b => b.Price)
+                .HasColumnType("decimal(18, 2)");
+
+            modelBuilder.Entity<Order>()
+                .Property(o => o.TotalPrice)
+                .HasColumnType("decimal(18, 2)"); // Example: Precision of 18 and 2 decimal places
+
+
+
 
             base.OnModelCreating(modelBuilder); // This call is important
 
@@ -41,83 +52,83 @@ namespace Final_Project.Data
             //    .HasOne(b => b.Author)
             //    .WithMany(a => a.Books)
             //    .HasForeignKey(b => b.AuthorID);
-            //// // Configure the 'Price' property of the 'Book' entity
+
+            // // Configure the 'Price' property of the 'Book' entity
             //modelBuilder.Entity<Book>()
             //    .Property(b => b.Price)
             //    .HasColumnType("decimal(18, 2)"); // Example: Precision of 18 and 2 decimal places
 
+            //// // Configure the 'TotalPrice' property of the 'Order' entity
+           
+
+            //// Many-to-One: OrderItems -> Books
+            //modelBuilder.Entity<OrderItem>()
+            //    .HasOne(oi => oi.Book)
+            //    .WithMany(b => b.OrderItems)
+            //    .HasForeignKey(oi => oi.BookID);
+
+            //// Many-to-One OrderItem -> Order
+            //modelBuilder.Entity<OrderItem>()
+            //    .HasOne(oi => oi.Order)
+            //    .WithMany(o => o.OrderItems)
+            //    .HasForeignKey(oi => oi.OrderID);
+
+            //// Many-to-One: Orders -> Customers
+            //modelBuilder.Entity<Order>()
+            //    .HasOne(o => o.Customer)
+            //    .WithMany(c => c.Orders)
+            //    .HasForeignKey(o => o.CustomerID);
 
 
-            // // Many-to-One: OrderItems -> Books
-            // modelBuilder.Entity<OrderItem>()
-            //     .HasOne(oi => oi.Book)
-            //     .WithMany(b => b.OrderItems)
-            //     .HasForeignKey(oi => oi.BookID);
 
-            // // Many-to-One OrderItem -> Order
-            // modelBuilder.Entity<OrderItem>()
-            //     .HasOne(oi => oi.Order)
-            //     .WithMany(o => o.OrderItems)
-            //     .HasForeignKey(oi => oi.OrderID);
-
-            // // Many-to-One: Orders -> Customers
-            // modelBuilder.Entity<Order>()
-            //     .HasOne(o => o.Customer)
-            //     .WithMany(c => c.Orders)
-            //     .HasForeignKey(o => o.CustomerID);
-
-            // // Configure the 'TotalPrice' property of the 'Order' entity
-            // modelBuilder.Entity<Order>()
-            //     .Property(o => o.TotalPrice)
-            //     .HasColumnType("decimal(18, 2)"); // Example: Precision of 18 and 2 decimal places
+            //modelBuilder.Entity<Author>().HasData(
+            //    new Author
+            //    {
+            //        AuthorID = 1,
+            //        Name = "John Doe",
+            //        Biography = "John Doe is a prolific author with a passion for storytelling."
+            //    },
+            //    new Author
+            //    {
+            //        AuthorID = 2,
+            //        Name = "Jane Smith",
+            //        Biography = "Jane Smith is an award-winning novelist known for her vivid writing style."
+            //    }
+            // Add more authors with complete data as needed
+            //);
 
 
-            // modelBuilder.Entity<Author>().HasData(
-            //     new Author
-            //     {
-            //         AuthorID = 1,
-            //         Name = "John Doe",
-            //         Biography = "John Doe is a prolific author with a passion for storytelling."
-            //     },
-            //     new Author
-            //     {
-            //         AuthorID = 2,
-            //         Name = "Jane Smith",
-            //         Biography = "Jane Smith is an award-winning novelist known for her vivid writing style."
-            //     }
-            //     // Add more authors with complete data as needed
-            // );
 
 
-            modelBuilder.Entity<Book>().HasData(
-                new Book
-                {
-                    BookID = 1,
-                    Title = "Book 1",
-                    ISBN = "978-1234567890",
-                    Description = "This is the description of Book 1.",
-                    Price = 29.99m,
-                    AuthorID = 1 // Reference to the author with ID 1
-                },
-                new Book
-                {
-                    BookID = 2,
-                    Title = "Book 2",
-                    ISBN = "978-9876543210",
-                    Description = "This is the description of Book 2.",
-                    Price = 24.99m,
-                    AuthorID = 2 // Reference to the author with ID 2
-                }
-            // Add more books with complete data as needed
-            );
+            //modelBuilder.Entity<Book>().HasData(
+            //    new Book
+            //    {
+            //        BookID = 1,
+            //        Title = "Book 1",
+            //        ISBN = "978-1234567890",
+            //        Description = "This is the description of Book 1.",
+            //        Price = 29.99m,
+            //        AuthorID = 1 // Reference to the author with ID 1
+            //    },
+            //    new Book
+            //    {
+            //        BookID = 2,
+            //        Title = "Book 2",
+            //        ISBN = "978-9876543210",
+            //        Description = "This is the description of Book 2.",
+            //        Price = 24.99m,
+            //        AuthorID = 2 // Reference to the author with ID 2
+            //    }
+            //// Add more books with complete data as needed
+            //);
 
-                modelBuilder.Entity<Book>()
-            .Property(b => b.Price)
-            .HasColumnType("decimal(18, 2)");
+            //    modelBuilder.Entity<Book>()
+            //.Property(b => b.Price)
+            //.HasColumnType("decimal(18, 2)");
 
-            modelBuilder.Entity<Order>()
-            .Property(o => o.TotalPrice)
-            .HasColumnType("decimal(18, 2)");
+            //modelBuilder.Entity<Order>()
+            //.Property(o => o.TotalPrice)
+            //.HasColumnType("decimal(18, 2)");
 
 
             // modelBuilder.Entity<OrderItem>().HasData(

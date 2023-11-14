@@ -69,26 +69,6 @@ namespace Final_Project.Data.Migrations
                     b.HasIndex("AuthorID");
 
                     b.ToTable("Books");
-
-                    b.HasData(
-                        new
-                        {
-                            BookID = 1,
-                            AuthorID = 1,
-                            Description = "This is the description of Book 1.",
-                            ISBN = "978-1234567890",
-                            Price = 29.99m,
-                            Title = "Book 1"
-                        },
-                        new
-                        {
-                            BookID = 2,
-                            AuthorID = 2,
-                            Description = "This is the description of Book 2.",
-                            ISBN = "978-9876543210",
-                            Price = 24.99m,
-                            Title = "Book 2"
-                        });
                 });
 
             modelBuilder.Entity("Final_Project.Models.Customer", b =>
