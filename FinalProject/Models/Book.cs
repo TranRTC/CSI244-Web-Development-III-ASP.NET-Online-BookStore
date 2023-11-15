@@ -28,8 +28,15 @@ namespace FinalProject.Models
         // Navigation Properties
         [Required]
         public int AuthorID { get; set; }
+
+        // Add flag to use for soft delete
+        [Display(Name = "Deleted")]
+        public bool IsDeleted { get; set; }
+
         public Author Author { get; set; }  // Many-to-One with Authors
         public ICollection<OrderItem> OrderItems { get; set; }  // One-to-Many with OrderItems
+        
+
 
     }
 }

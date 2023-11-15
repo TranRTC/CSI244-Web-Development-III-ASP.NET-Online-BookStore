@@ -17,9 +17,12 @@ namespace FinalProject.Controllers
 
         public IActionResult Index()
         {
-            
-            var books = _context.Books.Include(b => b.Author);
-            
+
+            var books = _context.Books
+                        .Include(b => b.Author) // Include author information
+                        .Where(b => !b.IsDeleted) // Filter out deleted books
+                        .ToList();
+
             return View(books);
         }
 
@@ -94,6 +97,40 @@ namespace FinalProject.Controllers
 
             // 6. Return View with Model
             return View(book);
+        }
+
+
+        // GET: Books/Delete/5
+        [HttpGet]
+        public IActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var book = _context.Books
+                .FirstOrDefault(m => m.BookID == id);
+            if (book == null)
+            {
+                return NotFound();
+            }
+
+            return View(book);
+        }
+
+        // POST: Books/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int id)
+        {
+            var book = _context.Books.Find(id);
+            if (book != null)
+            {
+                book.IsDeleted = true;  // Soft delete by setting the IsDeleted flag
+                _context.SaveChanges();
+            }
+            return RedirectToAction("Index");
         }
 
 
