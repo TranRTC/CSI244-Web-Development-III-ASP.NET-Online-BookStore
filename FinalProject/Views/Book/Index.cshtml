@@ -1,0 +1,122 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+
+
+@model IEnumerable<FinalProject.Models.Book>
+
+
+
+
+@{
+    ViewData["Title"] = "Books Catalog";
+}
+
+
+<h2 class="mb-3">@ViewData["Title"]</h2>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped table-hover">
+        <thead class="thead-light">
+            <tr>
+                <th>Title</th>
+                <th>ISBN</th>
+                <th>Author</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var book in Model)
+        {
+            <tr>
+                <td>@book.Title</td>
+                <td>@book.ISBN</td>
+                <td>@book.Author.Name</td>
+                <td>@book.Description</td>
+                <td>@book.Price.ToString("C")</td>
+                <td>
+                    <div class="btn-group" role="group" aria-label="Book Actions">
+                        <a href="/Book/Edit/@book.BookID" class="btn btn-outline-primary">Edit</a>
+                        <a href="/Book/Details/@book.BookID" class="btn btn-outline-secondary">Details</a>
+                        <a href="/Book/Delete/@book.BookID" class="btn btn-outline-danger">Delete</a>
+                    </div>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+
+
+
+
+@*
+
+<table class="table table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <th>Title</th>
+            <th>ISBN</th>
+            <th>Author</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var book in Model)
+        {
+            <tr>
+                <td>@book.Title</td>
+                <td>@book.ISBN</td>
+                <td>@book.Author.Name</td>
+                <td>@book.Description</td>
+                <td>@book.Price.ToString("C")</td>
+                <td>
+                    <a href="/Book/Edit/@book.BookID" class="btn btn-primary">Edit</a>
+                    <a href="/Book/Details/@book.BookID" class="btn btn-secondary">Details</a>
+                    <a href="/Book/Delete/@book.BookID" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+*@
+
+
+@*
+
+@model IEnumerable<FinalProject.Models.Book>
+
+<table>
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>ISBN</th>
+            <th>Author</th>
+            <th>Discription</th>
+            <th>Price</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var book in Model)
+    {
+        <tr>
+            <td>@book.Title</td>
+            <td>@book.ISBN</td>
+            <td>@book.Author.Name</td>
+            <td>@book.Description</td>
+            <td>@book.Price.ToString("C")</td>
+            
+        </tr>
+    }
+    </tbody>
+</table>
+
+
+*@

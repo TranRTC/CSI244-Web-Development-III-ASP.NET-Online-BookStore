@@ -2459,11 +2459,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\tranq\\OneDrive\\Quarter6\\CSI-244 Web III ASP.NET\\week12\\FinalProject\\FinalProject.csproj",
+      "projectUniqueName": "C:\\Users\\tranq\\OneDrive\\Quarter6\\CSI-244 Web III ASP.NET\\week9\\CSI-244-Final-Project\\FinalProject\\FinalProject.csproj",
       "projectName": "FinalProject",
-      "projectPath": "C:\\Users\\tranq\\OneDrive\\Quarter6\\CSI-244 Web III ASP.NET\\week12\\FinalProject\\FinalProject.csproj",
+      "projectPath": "C:\\Users\\tranq\\OneDrive\\Quarter6\\CSI-244 Web III ASP.NET\\week9\\CSI-244-Final-Project\\FinalProject\\FinalProject.csproj",
       "packagesPath": "C:\\Users\\tranq\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\tranq\\OneDrive\\Quarter6\\CSI-244 Web III ASP.NET\\week12\\FinalProject\\obj\\",
+      "outputPath": "C:\\Users\\tranq\\OneDrive\\Quarter6\\CSI-244 Web III ASP.NET\\week9\\CSI-244-Final-Project\\FinalProject\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\tranq\\AppData\\Roaming\\NuGet\\NuGet.Config",

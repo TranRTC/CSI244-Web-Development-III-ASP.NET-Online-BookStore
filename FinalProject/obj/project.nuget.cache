@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "+qXZ0u1T3ESclAtn3jFN0pan/b+6n7zuKZmSkoJ/OTRZYSd/DudNrx7SM9KUR4lgd5F3ICUPUJx/lOm7VpMRbA==",
+  "dgSpecHash": "YEN+5omqtw11DUsCTNCg0n/pjJsDARAxZwQuFybQv9AlL+sxBrwSNTW1RqPe1o8xNHCZXccEfYD8sszHLu4Nyw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\tranq\\OneDrive\\Quarter6\\CSI-244 Web III ASP.NET\\week12\\FinalProject\\FinalProject.csproj",
+  "projectFilePath": "C:\\Users\\tranq\\OneDrive\\Quarter6\\CSI-244 Web III ASP.NET\\week9\\CSI-244-Final-Project\\FinalProject\\FinalProject.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\tranq\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\tranq\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\6.0.21\\microsoft.aspnetcore.cryptography.internal.6.0.21.nupkg.sha512",

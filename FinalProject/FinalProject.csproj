@@ -15,4 +15,11 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.21" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Author\" />
+    <Folder Include="Views\Customer\" />
+    <Folder Include="Views\Order\" />
+    <Folder Include="Views\OrderItem\" />
+  </ItemGroup>
+
 </Project>

@@ -1,0 +1,33 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+
+@model FinalProject.Models.Book
+
+@{
+    ViewData["Title"] = "Book Details";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-3">@ViewData["Title"] - @Model.Title</h2>
+
+    <div class="card">
+        <div class="card-header">
+            Book Information
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">@Model.Title</h5>
+            <p class="card-text">
+                <strong>ISBN:</strong> @Model.ISBN <br />
+                <strong>Author:</strong> @Model.Author.Name <br />
+                <strong>Description:</strong> @Model.Description <br />
+                <strong>Price:</strong> @Model.Price.ToString("C")
+            </p>
+            <a href="@Url.Action("Edit", new { id = Model.BookID })" class="btn btn-primary">Edit</a>
+            <a href="@Url.Action("Index")" class="btn btn-secondary">Back to List</a>
+        </div>
+    </div>
+</div>
