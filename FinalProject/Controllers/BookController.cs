@@ -109,7 +109,7 @@ namespace FinalProject.Controllers
                 return NotFound();
             }
 
-            var book = _context.Books
+            var book = _context.Books.Include(b => b.Author)
                 .FirstOrDefault(m => m.BookID == id);
             if (book == null)
             {

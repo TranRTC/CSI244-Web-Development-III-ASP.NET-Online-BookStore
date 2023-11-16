@@ -1,0 +1,25 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model FinalProject.Models.Author
+
+@{
+    ViewData["Title"] = "Author Details";
+}
+
+<h2>Author Details</h2>
+
+<div>
+    <h4>@Model.Name</h4>
+    <div>
+        <strong>Biography:</strong> @Model.Biography
+    </div>
+    <!-- Add more fields if necessary -->
+</div>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.AuthorID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
