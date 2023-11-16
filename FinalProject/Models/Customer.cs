@@ -23,6 +23,10 @@ namespace FinalProject.Models
         [StringLength(20, ErrorMessage = "Phone number cannot be longer than 20 characters.")]
         public string Phone { get; set; }
 
+        // Add flag to use for soft delete
+        [Display(Name = "Deleted")]
+        public bool IsDeleted { get; set; }
+
         // Navigation Property
         public ICollection<Order> Orders { get; set; }  // One-to-Many with Orders
     }
