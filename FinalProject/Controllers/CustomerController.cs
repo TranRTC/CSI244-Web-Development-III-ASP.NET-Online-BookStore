@@ -28,6 +28,28 @@ namespace FinalProject.Controllers
             
         }
 
+
+        //=============================Details=========================
+
+        // GET: Customer/Details/5
+        public IActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound(); // If no ID is provided, return a NotFound result.
+            }
+
+            var customer = _context.Customers
+                .FirstOrDefault(c => c.CustomerID == id);
+
+            if (customer == null)
+            {
+                return NotFound(); // If no customer is found with the provided ID, return NotFound.
+            }
+
+            return View(customer); // If a customer is found, pass the customer object to the view.
+        }
+
         //=============================Create===========================
 
         // GET: Customer/Create

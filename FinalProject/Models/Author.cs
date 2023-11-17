@@ -13,7 +13,9 @@ namespace FinalProject.Models
 
         [StringLength(1000, ErrorMessage = "Biography cannot be more than 1000 characters.")]
         public string Biography { get; set; }
-        
+        // Add flag to use for soft delete
+        [Display(Name = "Deleted")]
+        public bool IsDeleted { get; set; }
 
         // Navigation Property
         public ICollection<Book> Books { get; set; }  // One-to-Many with Books

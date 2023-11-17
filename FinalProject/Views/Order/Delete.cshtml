@@ -1,0 +1,32 @@
+﻿@model FinalProject.Models.Order
+
+<h2>Delete Order</h2>
+
+<h3>Are you sure you want to mark this order as deleted?</h3>
+
+<div>
+    <h4>Order Details</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.OrderDate)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.OrderDate)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.TotalPrice)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.TotalPrice)
+        </dd>
+        <!-- Include other details you wish to display -->
+    </dl>
+</div>
+
+<!-- Form to confirm deletion -->
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="OrderID" />
+    <input type="submit" value="Delete" class="btn btn-danger" /> |
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
