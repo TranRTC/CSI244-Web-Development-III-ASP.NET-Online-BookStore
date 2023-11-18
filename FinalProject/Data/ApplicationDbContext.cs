@@ -1,10 +1,11 @@
 ﻿using FinalProject.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace FinalProject.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
 
     {
 
@@ -24,5 +25,20 @@ namespace FinalProject.Data
             : base(options)
         {
         }
+
+        //=============UserId is not use as Key in Customer model
+       
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            // Configure the relationship
+            modelBuilder.Entity<Customer>()
+                .HasOne<ApplicationUser>(c => c.User)
+                .WithMany()
+                .HasForeignKey(c => c.UserId);
+        }
+
     }
 }

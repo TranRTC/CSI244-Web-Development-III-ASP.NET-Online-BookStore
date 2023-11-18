@@ -1,6 +1,10 @@
-﻿namespace FinalProject.Models
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace FinalProject.Models
 {
-    public class ApplicationUser
+    public class ApplicationUser : IdentityUser
     {
+         
+
     }
 }

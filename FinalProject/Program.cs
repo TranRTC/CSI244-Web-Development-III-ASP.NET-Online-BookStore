@@ -1,4 +1,5 @@
 using FinalProject.Data;
+using FinalProject.Models;
 using FinalProject.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
