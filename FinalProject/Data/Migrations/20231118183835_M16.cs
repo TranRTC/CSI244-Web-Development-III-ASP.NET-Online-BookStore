@@ -4,7 +4,7 @@
 
 namespace FinalProject.Data.Migrations
 {
-    public partial class CustomerM1 : Migration
+    public partial class M16 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

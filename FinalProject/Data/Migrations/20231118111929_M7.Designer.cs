@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinalProject.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231118070114_modifyCustomer")]
-    partial class modifyCustomer
+    [Migration("20231118111929_M7")]
+    partial class M7
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -163,9 +163,12 @@ namespace FinalProject.Data.Migrations
                         .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("CustomerID");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Customers");
                 });
@@ -290,6 +293,10 @@ namespace FinalProject.Data.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -341,6 +348,8 @@ namespace FinalProject.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -428,6 +437,13 @@ namespace FinalProject.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("FinalProject.Models.ApplicationUser", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+
+                    b.HasDiscriminator().HasValue("ApplicationUser");
+                });
+
             modelBuilder.Entity("FinalProject.Models.Book", b =>
                 {
                     b.HasOne("FinalProject.Models.Author", "Author")
@@ -456,6 +472,17 @@ namespace FinalProject.Data.Migrations
                     b.Navigation("Book");
 
                     b.Navigation("Cart");
+                });
+
+            modelBuilder.Entity("FinalProject.Models.Customer", b =>
+                {
+                    b.HasOne("FinalProject.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("FinalProject.Models.Order", b =>

@@ -4,7 +4,7 @@
 
 namespace FinalProject.Data.Migrations
 {
-    public partial class add_UserId_to_Cusomer_Model : Migration
+    public partial class M19 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

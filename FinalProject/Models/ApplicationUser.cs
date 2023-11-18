@@ -2,9 +2,9 @@
 
 namespace FinalProject.Models
 {
-    public class ApplicationUser : IdentityUser
+    public class ApplicationUser 
     {
-         
+       
 
     }
 }

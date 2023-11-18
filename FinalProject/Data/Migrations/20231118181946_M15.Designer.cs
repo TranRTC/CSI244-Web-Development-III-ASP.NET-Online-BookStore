@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinalProject.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231118065533_modified_Customer_Model")]
-    partial class modified_Customer_Model
+    [Migration("20231118181946_M15")]
+    partial class M15
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -164,9 +164,11 @@ namespace FinalProject.Data.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("CustomerID");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Customers");
                 });
@@ -331,6 +333,10 @@ namespace FinalProject.Data.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
+                    b.Property<string>("UserType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -342,6 +348,8 @@ namespace FinalProject.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasDiscriminator<string>("UserType").HasValue("IdentityUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -429,6 +437,13 @@ namespace FinalProject.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("FinalProject.Models.ApplicationUser", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+
+                    b.HasDiscriminator().HasValue("YourCustomUserType");
+                });
+
             modelBuilder.Entity("FinalProject.Models.Book", b =>
                 {
                     b.HasOne("FinalProject.Models.Author", "Author")
@@ -457,6 +472,17 @@ namespace FinalProject.Data.Migrations
                     b.Navigation("Book");
 
                     b.Navigation("Cart");
+                });
+
+            modelBuilder.Entity("FinalProject.Models.Customer", b =>
+                {
+                    b.HasOne("FinalProject.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("FinalProject.Models.Order", b =>

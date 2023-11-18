@@ -1,5 +1,6 @@
 ﻿using FinalProject.Data;
 using FinalProject.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
@@ -11,13 +12,15 @@ namespace FinalProject.Controllers
     {
 
         private readonly ApplicationDbContext _context;
+       
 
         public CartController(ApplicationDbContext context)
         {
             _context = context;
+           
         }
 
-        
+
         public ActionResult AddToCart(int bookId, int quantity = 1)
         { // Validate the quantity
             //if (quantity < 1)
@@ -140,9 +143,9 @@ namespace FinalProject.Controllers
         }
 
 
-        
 
-          public IActionResult UpdateCartItem(int bookId, int quantity)
+
+        public IActionResult UpdateCartItem(int bookId, int quantity)
         {
             if (quantity < 1)
             {
@@ -180,7 +183,7 @@ namespace FinalProject.Controllers
 
             return RedirectToAction("Index"); // Redirect back to the cart view
         }
-      
+
 
         private string GetUserId()
         {
@@ -211,97 +214,143 @@ namespace FinalProject.Controllers
             return newCart.CartID; // Return the auto-generated CartId
         }
 
-        /*
-         
-        */
-        public ActionResult Checkout()
+
+        //public IActionResult Checkout()
+        //{
+        //    // Check if the user is authenticated
+        //    if (!User.Identity.IsAuthenticated)
+        //    {
+        //        TempData["ErrorMessage"] = "User not identified. Please log in.";
+        //        return LocalRedirect("~/Identity/Account/Login");
+        //    }
+
+            
+        //    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        //    // Create a new Order
+        //    var order = new Order
+        //    {
+        //        // Set any other properties of the order, such as OrderDate, ShippingAddress, etc.
+        //        OrderDate = DateTime.Now,
+        //        // ...
+        //        // Leave CustomerID as default (0) if not associated with a specific customer
+        //        CustomerID = new Customer { UserId = user},
+        //        OrderItems = new List<OrderItem>()
+        //    };
+
+        //    // Assuming you have already retrieved the cart items
+        //    var cartItems = _context.CartItems.Where(ci => ci.Cart.UserId == GetUserId());
+
+        //    // Add items from the cart to the order
+        //    foreach (var cartItem in cartItems)
+        //    {
+        //        var orderItem = new OrderItem
+        //        {
+        //            BookID = cartItem.BookID,
+        //            Quantity = cartItem.Quantity,
+        //            // Set any other properties of the order item if needed
+        //        };
+        //        order.OrderItems.Add(orderItem);
+        //    }
+
+        //    // Add the order to the context
+        //    _context.Orders.Add(order);
+
+        //    // Save changes to the database
+        //    _context.SaveChanges();
+
+        //    // Clear the cart (assuming you have a method to do this)
+        //    //ClearCart();
+
+        //    return RedirectToAction("Details", new { id = order.OrderID });
+        //}
+
+
+
+        public IActionResult Checkout()
         {
-            // Retrieve the current user's ID (assuming UserId is a string; adjust if it's a different type)
+            // Check if the user is authenticated
+            //if (!User.Identity.IsAuthenticated)
+            //{
+            //    TempData["ErrorMessage"] = "User not identified. Please log in.";
+            //    return LocalRedirect("~/Identity/Account/Login");
+            //}
+
+            // if authenticated find userId
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userId))
             {
-                // Handle unauthenticated user scenario
-                TempData["ErrorMessage"] = "Please log in to proceed.";
-                return LocalRedirect("~/Identity/Account/Login"); // Adjust as needed based on login route
+                TempData["ErrorMessage"] = "User not identified. Please log in.";
+
+                //====If no direct to login page=========
+                return LocalRedirect("~/Identity/Account/Login");
             }
 
-            // Fetch the cart for the current user
-            var cart = _context.Carts.Include(c => c.CartItems)
-                         .ThenInclude(ci => ci.Book) // Assuming CartItem has a navigation property to Book
-                         .FirstOrDefault(c => c.UserId == userId);
+            // Synchronously get or create a customer record
+            //if there is userId find customer base on this
+            var customer = _context.Customers.FirstOrDefault(c => c.UserId == userId);
+            // if no create new Customer, the customer is create with only field UserId
+            if (customer == null)
+            {
+                customer = new Customer { UserId = userId };
+                _context.Customers.Add(customer);
+                _context.SaveChanges(); // Synchronous save
+            }
+
+            // Now you have CustomerId as int for the creation of Order
+            // CustomerID = customer.CustomerID; 
+
+            // create variable to hold Cart items
+
+            var cart = _context.Carts
+                               .Include(c => c.CartItems)
+                               .ThenInclude(ci => ci.Book) // Assuming CartItem links to a Book
+                               .FirstOrDefault(c => c.UserId == userId);
+
+            // if cart have nothing
 
             if (cart == null || !cart.CartItems.Any())
             {
-                // Handle the case where there is no cart or the cart is empty
                 TempData["ErrorMessage"] = "Your cart is empty.";
-                return RedirectToAction("Index", "Cart");
-            }
-            //===================================
 
-            //var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var customer = _context.Customers.FirstOrDefault(c => c.UserId == userId);
-
-            if (customer == null)
-            {
-                // Create a customer record if not found
-                customer = new Customer { UserId = userId };
-                _context.Customers.Add(customer);
-                _context.SaveChanges();
+                //direct to index page of Book controller to see catalogue
+                return RedirectToAction("Index", "Book");
             }
 
-
-            //==============================
-
-
-            // Create a new order
+            // If cart have something/not null
+            // create new Order
             var order = new Order
             {
-                CustomerID = customer.CustomerID, // Replace with appropriate logic to get CustomerID from UserId
-                OrderDate = DateTime.Now,
-                TotalPrice = cart.CartItems.Sum(ci => ci.Quantity * ci.Book.Price),
-                IsConfirmed = false,
-                IsDeleted = false,
-                OrderItems = cart.CartItems.Select(ci => new OrderItem
-                {
-                    BookID = ci.BookID,
-                    Quantity = ci.Quantity,
-                    // Set other properties as needed
-                }).ToList()
+                // CustomerID of new Order were get from new customer above
+                CustomerID = customer.CustomerID,
+                // Initialize other properties of the order...
+                OrderItems = new List<OrderItem>()
             };
 
-            // Add and save the order
-            _context.Orders.Add(order);
-            _context.SaveChanges();
-
-            // Optional: Clear the cart after successful order creation
-            // ...
-
-            return RedirectToAction("OrderConfirmation", new { orderId = order.OrderID });
-        }
-
-       
-
-        /*
-        private int GetCustomerId()
-        {
-            if (User.Identity.IsAuthenticated)
+            // Add items from cart to order
+            foreach (var cartItem in cart.CartItems)
             {
-                // Assuming the user's ID is stored as the NameIdentifier claim
-                // and that it's an integer value. Adjust the parsing as needed.
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-                if (int.TryParse(userId, out int customerId))
+                var orderItem = new OrderItem
                 {
-                    return customerId;
-                }
+                    BookID = cartItem.BookID,
+                    Quantity = cartItem.Quantity
+                    // Initialize other properties of the order item...
+                };
+                order.OrderItems.Add(orderItem);
             }
 
-            // Handle the scenario where the user is not authenticated or the ID is not found.
-            // This might involve throwing an exception, returning a default value, or redirecting to a login page.
-            throw new InvalidOperationException("User is not authenticated or customer ID is not available.");
-        }
+            _context.Orders.Add(order);
+            _context.SaveChanges(); // Synchronous save
 
-        */
+            // Optionally, clear the cart
+            _context.CartItems.RemoveRange(cart.CartItems);
+            _context.SaveChanges(); // Synchronous save
+
+            return RedirectToAction("Details", new { id = order.OrderID });
+        }
+        
+
+
 
     }
 }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinalProject.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231118020358_addCartToCartModel")]
-    partial class addCartToCartModel
+    [Migration("20231118190933_M18")]
+    partial class M18
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -148,7 +148,6 @@ namespace FinalProject.Data.Migrations
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -156,7 +155,6 @@ namespace FinalProject.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 

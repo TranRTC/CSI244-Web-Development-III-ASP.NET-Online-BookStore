@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FinalProject.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
+    public class ApplicationDbContext : IdentityDbContext
 
     {
 
@@ -29,16 +29,25 @@ namespace FinalProject.Data
         //=============UserId is not use as Key in Customer model
        
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    base.OnModelCreating(modelBuilder);
 
-            // Configure the relationship
-            modelBuilder.Entity<Customer>()
-                .HasOne<ApplicationUser>(c => c.User)
-                .WithMany()
-                .HasForeignKey(c => c.UserId);
-        }
+        //    // Configure the relationship
+        //    modelBuilder.Entity<Customer>()
+        //        .HasOne<ApplicationUser>(c => c.User)
+        //        .WithMany()
+        //        .HasForeignKey(c => c.UserId);
+
+
+        //    modelBuilder.Entity<IdentityUser>()
+        //        .HasDiscriminator<string>("UserType")
+        //        .HasValue<IdentityUser>("IdentityUser")
+        //        .HasValue<ApplicationUser>("ApplicationUser");
+
+
+
+        //}
 
     }
 }
