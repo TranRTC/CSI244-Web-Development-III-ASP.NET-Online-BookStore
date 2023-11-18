@@ -346,7 +346,7 @@ namespace FinalProject.Controllers
             _context.CartItems.RemoveRange(cart.CartItems);
             _context.SaveChanges(); // Synchronous save
 
-            return RedirectToAction("Details", new { id = order.OrderID });
+            return RedirectToAction("Details", "Order", new { id = order.OrderID });
         }
         
 
