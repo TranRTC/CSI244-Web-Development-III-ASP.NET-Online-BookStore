@@ -25,7 +25,7 @@ namespace FinalProject.Controllers
             .ToList();
             return View(orders);
         }
-
+        [HttpGet]
         public IActionResult Details(int id)
         {
             var order = _context.Orders
@@ -116,9 +116,14 @@ namespace FinalProject.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
+
+
+        [HttpPost]
+
         public IActionResult ConfirmOrder(int orderId)
         {
-           
+
             var order = _orderService.GetOrderById(orderId);
             if (order == null)
             {
@@ -132,10 +137,21 @@ namespace FinalProject.Controllers
             _context.Update(order); // Assuming _context is your DbContext
             _context.SaveChanges();
 
-            // Continue with the confirmation process, like showing a confirmation view
-            return View("ConfirmOrder");
+            // Continue with the confirmation process
+            // buy direct to the details view but show the confirmation status
+            // using conditional rendering bool variable IsConfirmed
+            
+            return RedirectToAction("Details", new { id = orderId });            
+
         }
 
+
+        [HttpPost]
+        public IActionResult AddBookToOrder(int bookId, int quantity = 1)
+        {
+            _orderService.AddBookToOrder(bookId, quantity);
+            return RedirectToAction("Cart");
+        }
 
     }
 }

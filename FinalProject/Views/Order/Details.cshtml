@@ -34,8 +34,15 @@
 </table>
 
 <!-- Add Confirm Order Form -->
-<form asp-controller="Orders" asp-action="ConfirmOrder" method="post">
-    <input type="hidden" name="orderId" value="@Model.OrderID" />
-    <input type="submit" value="Confirm Order" class="btn btn-primary" />
-</form>
+@if (!Model.IsConfirmed)
+{
+    <form asp-controller="Order" asp-action="ConfirmOrder" method="post">
+        <input type="hidden" name="orderId" value="@Model.OrderID" />
+        <button type="submit" class="btn btn-primary">Confirm Order</button>
+    </form>
+}
+else
+{
+    <button class="btn btn-success" disabled>Order Confirmed</button>
+}
 

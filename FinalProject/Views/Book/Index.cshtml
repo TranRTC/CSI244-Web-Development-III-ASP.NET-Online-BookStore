@@ -42,6 +42,7 @@
                         <a href="/Book/Edit/@book.BookID" class="btn btn-outline-primary">Edit</a>
                         <a href="/Book/Details/@book.BookID" class="btn btn-outline-secondary">Details</a>
                         <a href="/Book/Delete/@book.BookID" class="btn btn-outline-danger">Delete</a>
+                        <a href="@Url.Action("AddToCart", "Cart", new { bookId = book.BookID, quantity = 1 })">Add To Cart</a>
                     </div>
                 </td>
             </tr>
@@ -112,6 +113,7 @@
             <td>@book.Author.Name</td>
             <td>@book.Description</td>
             <td>@book.Price.ToString("C")</td>
+
             
         </tr>
     }

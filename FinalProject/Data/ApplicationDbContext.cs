@@ -14,21 +14,11 @@ namespace FinalProject.Data
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<Cart> Carts { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
 
 
-        // code add to override SaveChange to update Total Price before saving
-        //public override int SaveChanges()
-        //{
-        //    foreach (var entry in ChangeTracker.Entries<Order>())
-        //    {
-        //        if (entry.State == EntityState.Added || entry.State == EntityState.Modified)
-        //        {
-        //            var order = entry.Entity;
-        //            order.TotalPrice = order.CalculateTotal();
-        //        }
-        //    }
-        //    return base.SaveChanges();
-        //}
+        
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
