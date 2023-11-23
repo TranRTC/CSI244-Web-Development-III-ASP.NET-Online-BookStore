@@ -1,12 +1,6 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-
-
+﻿
 
 @model IEnumerable<FinalProject.Models.Book>
-
-
 
 
 @{
@@ -15,6 +9,18 @@
 
 
 <h2 class="mb-3">@ViewData["Title"]</h2>
+
+<form asp-action="Index" method="get" asp-controller="Book">
+    <div class="form-group">
+        <label for="searchTitle" class="control-label">Title</label>
+        <input type="text" name="searchTitle" class="form-control" placeholder="Search by title"/>
+    </div>
+    <div class="form-group">
+        <label for="searchAuthor" class="control-label">Author</label>
+        <input type="text" name="searchAuthor" class="form-control" placeholder="Search by author" />
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
 
 <div class="table-responsive">
     <table class="table table-bordered table-striped table-hover">
@@ -40,7 +46,8 @@
                 <td>
                     <div class="btn-group" role="group" aria-label="Book Actions">
                         <a href="/Book/Edit/@book.BookID" class="btn btn-outline-primary">Edit</a>
-                        <a href="/Book/Details/@book.BookID" class="btn btn-outline-secondary">Details</a>
+                        <a href="/Book/Details/@book.BookID"
+                        class="btn btn-outline-secondary">Details</a>
                         <a href="/Book/Delete/@book.BookID" class="btn btn-outline-danger">Delete</a>
                         <a href="@Url.Action("AddToCart", "Cart", new { bookId = book.BookID, quantity = 1 })">Add To Cart</a>
                     </div>

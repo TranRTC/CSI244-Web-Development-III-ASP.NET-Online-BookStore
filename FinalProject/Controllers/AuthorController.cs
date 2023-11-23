@@ -1,5 +1,6 @@
 ﻿using FinalProject.Data;
 using FinalProject.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinalProject.Controllers
@@ -12,6 +13,7 @@ namespace FinalProject.Controllers
             _context = context;
         }
         //==========================Index================================
+        [Authorize]
         public IActionResult Index()
 
         {
@@ -48,7 +50,7 @@ namespace FinalProject.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("AuthorID,Name,Biography")] Author author)
+        public IActionResult Create([Bind("Name,Biography,IsDeleted")] Author author)
         {
             if (ModelState.IsValid)
             {

@@ -12,6 +12,8 @@ namespace FinalProject.Models
         public string Name { get; set; }
 
         [StringLength(1000, ErrorMessage = "Biography cannot be more than 1000 characters.")]
+
+        [Required(ErrorMessage ="Biography of Author is required")]
         public string Biography { get; set; }
         // Add flag to use for soft delete
         [Display(Name = "Deleted")]

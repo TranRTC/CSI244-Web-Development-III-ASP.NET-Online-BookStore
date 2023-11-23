@@ -15,16 +15,42 @@ namespace FinalProject.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
-        {
 
-            var books = _context.Books
-                        .Include(b => b.Author) // Include author information
-                        .Where(b => !b.IsDeleted) // Filter out deleted books
-                        .ToList();
+
+        //public IActionResult Index()
+        //{
+
+        //    var books = _context.Books
+        //                .Include(b => b.Author) // Include author information
+        //                .Where(b => !b.IsDeleted) // Filter out deleted books
+        //                .ToList();
+
+        //    return View(books);
+        //}
+
+
+        public IActionResult Index(string searchTitle, string searchAuthor)
+        {
+            var booksQuery = _context.Books
+                             .Include(b => b.Author) // Include author information
+                             .Where(b => !b.IsDeleted); // Filter out deleted books
+
+            if (!string.IsNullOrEmpty(searchTitle))
+            {
+                booksQuery = booksQuery.Where(b => b.Title.Contains(searchTitle));
+            }
+
+            if (!string.IsNullOrEmpty(searchAuthor))
+            {
+                booksQuery = booksQuery.Where(b => b.Author.Name.Contains(searchAuthor));
+            }
+
+            var books = booksQuery.ToList();
 
             return View(books);
         }
+
+
 
         public IActionResult Details(int id)
         {
