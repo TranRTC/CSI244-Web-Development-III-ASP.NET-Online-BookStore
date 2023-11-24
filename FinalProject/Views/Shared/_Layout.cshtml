@@ -1,4 +1,14 @@
-﻿<!DOCTYPE html>
+﻿
+
+<!--  This code create bool variable isUserAdmin for below conditional rendering  -->
+
+@{
+   
+    var isUserAdmin = User.Identity.IsAuthenticated && User.IsInRole("Admin");
+}
+
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -8,6 +18,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/FinalProject.styles.css" asp-append-version="true" />
 </head>
+
 <body>   
 
 
@@ -30,16 +41,22 @@
                         <li>
                             <a class="nav-item nav-link" asp-controller="Book" asp-action="Index">Books</a>
                         </li>
-                      
-                        <li>
-                            <a class="nav-item nav-link" asp-controller="Author" asp-action="Index">Authors</a>
-                        </li>
-                        <li>
-                            <a class="nav-item nav-link" asp-controller="Order" asp-action="Index">My Orders</a>
-                        </li>
-                        <li>
-                            <a class="nav-item nav-link" asp-controller="Cart" asp-action="Index">Cart</a>
-                        </li>
+
+                        <!-- This is coditional rendering only admin can see this links for admin purpose -->
+                        @if (isUserAdmin)
+                        {
+                            <li>
+                                <a class="nav-item nav-link" asp-controller="Author" asp-action="Index">Authors</a>
+                            </li>
+                            <li>
+                                <a class="nav-item nav-link" asp-controller="Order" asp-action="Index">My Orders</a>
+                            </li>
+                            <li>
+                                <a class="nav-item nav-link" asp-controller="Cart" asp-action="Index">Carts</a>
+                            </li>
+                        }                      
+
+
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
@@ -49,10 +66,7 @@
 
             </div>
         </nav>
-    </header>
-
-
-   
+    </header>   
 
 
     <div class="container">

@@ -1,5 +1,6 @@
 ﻿using FinalProject.Data;
 using FinalProject.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -66,7 +67,10 @@ namespace FinalProject.Controllers
             return View(book);
         }
 
-        // GET: Book/Edit/5
+    
+
+
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Edit(int? id)
         {
