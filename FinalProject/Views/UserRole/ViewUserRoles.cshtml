@@ -1,0 +1,44 @@
+﻿@model IEnumerable<FinalProject.Models.UserRole>
+
+
+@{
+    ViewData["Title"] = "Manage User Roles";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>Current Roles</th>
+            <th>Assign New Role</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var user in Model)
+    {
+        <tr>
+            <td>@user.Email</td>
+            <td>
+                @foreach (var role in user.AssignedRoles)
+                {
+                    <span>@role </span>
+                }
+            </td>
+            <td>
+                <form asp-action="AssignRole" method="post">
+                    <input type="hidden" name="userId" value="@user.UserId" />
+                    <select name="roleName">
+                        @foreach (var role in user.AvailableRoles)
+                        {
+                            <option value="@role">@role</option>
+                        }
+                    </select>
+                    <input type="submit" value="Assign Role" class="btn btn-primary" />
+                </form>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

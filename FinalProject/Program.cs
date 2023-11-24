@@ -16,7 +16,11 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddScoped<OrderService>();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+
+    //=====================add service role identity========================
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
+
 builder.Services.AddControllersWithViews();
 
 
@@ -47,4 +51,40 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
 
+//app.Run();
+
+//=================Code for seeding roles===============================
+
+static void CreateRoles(IServiceProvider serviceProvider)
+{
+    using (var scope = serviceProvider.CreateScope())
+    {
+        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+        string[] roleNames = { "Admin", "User", "Manager" };
+        foreach (var roleName in roleNames)
+        {
+            var roleExist = roleManager.RoleExistsAsync(roleName).GetAwaiter().GetResult();
+            if (!roleExist)
+            {
+                var result = roleManager.CreateAsync(new IdentityRole(roleName)).GetAwaiter().GetResult();
+                if (!result.Succeeded)
+                {
+                    // Handle errors
+                    // Log the error or take appropriate action
+                    foreach (var error in result.Errors)
+                    {
+                        // Do something with the error
+                        Console.WriteLine($"Error creating role {roleName}: {error.Description}");
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Create and seed roles
+CreateRoles(app.Services);
+
 app.Run();
+
