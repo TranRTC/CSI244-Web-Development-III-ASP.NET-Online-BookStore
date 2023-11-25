@@ -29,7 +29,7 @@ else
                     <td>@item.Book.Title</td>
                     <td>@item.Quantity</td>
                     <td>@item.Book.Price.ToString("C")</td>
-                    <td>@(item.Book.Price * item.Quantity).ToString("C")</td>
+                    <td>@(item.Book.Price * item.Quantity)</td>
                     <td>
                         <!-- Update Quantity Form (Example) -->
                         @using (Html.BeginForm("UpdateCartItem", "Cart", new { bookId = item.BookID }))

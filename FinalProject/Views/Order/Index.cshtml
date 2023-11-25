@@ -38,6 +38,7 @@
     <thead class="thead-light">
         <tr>
             <th>OrderID</th>
+            <th>Customer Name</th>
             <th>OrderDate</th>
             <th>TotalPrice</th>
             <th style="text-align: center;">Actions</th>
@@ -48,6 +49,7 @@
         {
             <tr>
                 <td>@order.OrderID</td>
+                <td>@order.Customer.Name</td>
                 <td>@order.OrderDate</td>
                 <td>@order.TotalPrice</td>
                 <td style="text-align: center;">

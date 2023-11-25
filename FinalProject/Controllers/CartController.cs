@@ -23,12 +23,12 @@ namespace FinalProject.Controllers
 
         public ActionResult AddToCart(int bookId, int quantity = 1)
         { // Validate the quantity
-            if (quantity < 1)
-            {
-                // Optionally return an error message or set a default value
-                TempData["ErrorMessage"] = "Invalid quantity. Quantity must be at least 1.";
-                return RedirectToAction("Index");
-            }
+            //if (quantity < 1)
+            //{
+            //    // Optionally return an error message or set a default value
+            //    TempData["ErrorMessage"] = "Invalid quantity. Quantity must be at least 1.";
+            //    return RedirectToAction("Index");
+            //}
 
             // Retrieve the current user's ID
 
