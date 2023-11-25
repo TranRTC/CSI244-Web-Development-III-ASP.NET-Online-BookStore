@@ -44,6 +44,7 @@ namespace FinalProject.Controllers
 
         //============== for HttpGet ==============
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Create()
         {
@@ -51,7 +52,7 @@ namespace FinalProject.Controllers
         }
 
         //================= for HttpPost ============
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         
         public IActionResult Create([Bind("Title, ISBN, Description, Price, AuthorID")] Book book) //BookID no need to bind here
@@ -110,7 +111,7 @@ namespace FinalProject.Controllers
 
         //=================Edit for HttpGet=======================
 
-        [HttpPost]
+        [Authorize(Roles = "Admin")]
 
         [HttpPost]
         
@@ -153,6 +154,7 @@ namespace FinalProject.Controllers
         //===============================Delete===============================
 
         //==============Delete for HttpGet=================
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Delete(int? id)
         {
@@ -172,6 +174,7 @@ namespace FinalProject.Controllers
         }
 
         //===========Delete for HttpPost==============
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         
         public IActionResult Delete(int id)
