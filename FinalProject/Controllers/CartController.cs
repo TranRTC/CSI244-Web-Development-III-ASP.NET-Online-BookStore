@@ -23,12 +23,12 @@ namespace FinalProject.Controllers
 
         public ActionResult AddToCart(int bookId, int quantity = 1)
         { // Validate the quantity
-            //if (quantity < 1)
-            //{
-            //    // Optionally return an error message or set a default value
-            //    TempData["ErrorMessage"] = "Invalid quantity. Quantity must be at least 1.";
-            //    return RedirectToAction("Index");
-            //}
+            if (quantity < 1)
+            {
+                // Optionally return an error message or set a default value
+                TempData["ErrorMessage"] = "Invalid quantity. Quantity must be at least 1.";
+                return RedirectToAction("Index");
+            }
 
             // Retrieve the current user's ID
 
@@ -143,18 +143,17 @@ namespace FinalProject.Controllers
         }
 
 
-
-
         public IActionResult UpdateCartItem(int bookId, int quantity)
         {
+            // handle the case where the quantity is less than 1
             if (quantity < 1)
             {
-                // Optionally handle the case where the quantity is less than 1
+                
                 TempData["ErrorMessage"] = "Quantity must be at least 1.";
                 return RedirectToAction("Index");
             }
 
-            var userId = GetUserId(); // Retrieve the current user's ID
+            var userId = GetUserId(); // Retrieve the current user's ID. This method is at the bottom
             var cart = _context.Carts.Include(c => c.CartItems)
                         .FirstOrDefault(c => c.UserId == userId);
 
@@ -184,6 +183,8 @@ namespace FinalProject.Controllers
             return RedirectToAction("Index"); // Redirect back to the cart view
         }
 
+        //=====================================Get UserId======================================
+        //Method to get UserId to server for the other methods need authentication
 
         private string GetUserId()
         {
@@ -215,57 +216,7 @@ namespace FinalProject.Controllers
         }
 
 
-        //public IActionResult Checkout()
-        //{
-        //    // Check if the user is authenticated
-        //    if (!User.Identity.IsAuthenticated)
-        //    {
-        //        TempData["ErrorMessage"] = "User not identified. Please log in.";
-        //        return LocalRedirect("~/Identity/Account/Login");
-        //    }
-
-            
-        //    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-        //    // Create a new Order
-        //    var order = new Order
-        //    {
-        //        // Set any other properties of the order, such as OrderDate, ShippingAddress, etc.
-        //        OrderDate = DateTime.Now,
-        //        // ...
-        //        // Leave CustomerID as default (0) if not associated with a specific customer
-        //        CustomerID = new Customer { UserId = user},
-        //        OrderItems = new List<OrderItem>()
-        //    };
-
-        //    // Assuming you have already retrieved the cart items
-        //    var cartItems = _context.CartItems.Where(ci => ci.Cart.UserId == GetUserId());
-
-        //    // Add items from the cart to the order
-        //    foreach (var cartItem in cartItems)
-        //    {
-        //        var orderItem = new OrderItem
-        //        {
-        //            BookID = cartItem.BookID,
-        //            Quantity = cartItem.Quantity,
-        //            // Set any other properties of the order item if needed
-        //        };
-        //        order.OrderItems.Add(orderItem);
-        //    }
-
-        //    // Add the order to the context
-        //    _context.Orders.Add(order);
-
-        //    // Save changes to the database
-        //    _context.SaveChanges();
-
-        //    // Clear the cart (assuming you have a method to do this)
-        //    //ClearCart();
-
-        //    return RedirectToAction("Details", new { id = order.OrderID });
-        //}
-
-
+        
 
         public IActionResult Checkout()
         {

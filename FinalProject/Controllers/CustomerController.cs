@@ -31,7 +31,7 @@ namespace FinalProject.Controllers
 
         //=============================Details=========================
 
-        // GET: Customer/Details/5
+        
         public IActionResult Details(int? id)
         {
             if (id == null)
@@ -52,16 +52,16 @@ namespace FinalProject.Controllers
 
         //=============================Create===========================
 
-        // GET: Customer/Create
+        
         public IActionResult Create()
         {
             return View();
         }
         //=============================Create Post=====================
-        // POST: Customer/Create
+        
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("Name, Email, ...")] Customer customer)
+        
+        public IActionResult Create([Bind("Name, Email, Address, Phone, IsDeleted, UserId")] Customer customer)
         {
             if (ModelState.IsValid)
             {
@@ -74,7 +74,7 @@ namespace FinalProject.Controllers
 
 
         //============================Edit================================
-        // GET: Customer/Edit/5
+        
         public IActionResult Edit(int id)
         {
             var customer = _context.Customers.Find(id);
@@ -85,10 +85,10 @@ namespace FinalProject.Controllers
             return View(customer);
         }
 
-        // POST: Customer/Edit/5
+        
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, [Bind("Name, Email, ...")] Customer customer)
+        
+        public IActionResult Edit(int id, [Bind("CustomerID, Name, Email, Address, Phone, IsDeleted, UserId")] Customer customer)
         {
             if (id != customer.CustomerID)
             {
@@ -103,8 +103,8 @@ namespace FinalProject.Controllers
             }
             return View(customer);
         }
-        //=====================================Delete==========================
-        // GET: Customer/Delete/5
+        //========================Delete==========================
+        
         public IActionResult Delete(int id)
         {
             var customer = _context.Customers.Find(id);
@@ -115,9 +115,11 @@ namespace FinalProject.Controllers
             return View(customer);
         }
 
-        // POST: Customer/Delete/5
+        // two action methods receive argument id
+        // below for delete post
+        
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+        
         public IActionResult DeleteConfirmed(int id)
         {
             var customer = _context.Customers.Find(id);
@@ -125,8 +127,6 @@ namespace FinalProject.Controllers
             _context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
-
-
 
     }
 }

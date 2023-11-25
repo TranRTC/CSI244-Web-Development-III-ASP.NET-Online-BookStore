@@ -17,7 +17,8 @@ namespace FinalProject.Controllers
         public IActionResult Index()
 
         {
-            var authors = _context.Authors.ToList();
+            var authors = _context.Authors.Where(b => b.IsDeleted != true).ToList();
+
             return View(authors);
              
         }
@@ -49,7 +50,7 @@ namespace FinalProject.Controllers
         //===========================Create Post=========================
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        
         public IActionResult Create([Bind("Name,Biography,IsDeleted")] Author author)
         {
             if (ModelState.IsValid)
@@ -80,7 +81,7 @@ namespace FinalProject.Controllers
 
         //=================================Edit Post-----------------
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        
         public IActionResult Edit(int id, [Bind("AuthorID,Name,Biography")] Author author)
         {
             if (id != author.AuthorID)
@@ -122,14 +123,18 @@ namespace FinalProject.Controllers
 
         // POST: Author/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+        
         public IActionResult DeleteConfirmed(int id)
         {
             var author = _context.Authors.Find(id);
+            if (author != null)
+            {
+                author.IsDeleted = true;
+                _context.SaveChanges();
+            }
 
-            _context.Authors.Remove(author);
-
-            _context.SaveChanges();
+            //if need hard delete use this code
+            //_context.Authors.Remove(author);           
 
             return RedirectToAction(nameof(Index));
         }

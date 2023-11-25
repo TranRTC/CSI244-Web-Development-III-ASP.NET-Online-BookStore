@@ -15,8 +15,10 @@ namespace FinalProject.Controllers
         public OrderController(ApplicationDbContext context, OrderService orderService )
         {
             _context = context;
-            _orderService = orderService;
+            _orderService = orderService;// orderService handle for price & discount
         }
+
+        //==========================================Index=========================================
         public IActionResult Index()
         {
             var orders = _context.Orders
@@ -25,6 +27,9 @@ namespace FinalProject.Controllers
             .ToList();
             return View(orders);
         }
+
+        //=========================================Details==========================================
+
         [HttpGet]
         public IActionResult Details(int id)
         {
@@ -41,16 +46,20 @@ namespace FinalProject.Controllers
 
             return View(order);
         }
-        // GET: Order/Create
+        
+
+        //===========================================Create=========================================
+
+        //======================Create for HttpGet===============
         public IActionResult Create()
         {
             // Populate ViewData or ViewBag with necessary data, like CustomerID options
             return View();
         }
 
-        // POST: Order/Create
+        //=====================Create for HttpPost================
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        
         public IActionResult Create([Bind("CustomerID,OrderDate,TotalPrice")] Order order)
         {
             if (ModelState.IsValid)
@@ -62,7 +71,9 @@ namespace FinalProject.Controllers
             return View(order);
         }
 
-        // GET: Order/Edit/5
+        //=======================================Edit===============================================
+
+        //===========Edit for HttpGet===============
         public IActionResult Edit(int id)
         {
             var order = _context.Orders.Find(id);
@@ -73,9 +84,9 @@ namespace FinalProject.Controllers
             return View(order);
         }
 
-        // POST: Order/Edit/5
+        //============Edit for HttpPost===============
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        
         public IActionResult Edit(int id, [Bind("OrderID,CustomerID,OrderDate,TotalPrice")] Order order)
         {
             if (id != order.OrderID)
@@ -91,7 +102,10 @@ namespace FinalProject.Controllers
             }
             return View(order);
         }
-        // GET: Order/Delete/5
+        
+
+        //===========================================Delete==============================================
+        //===============Delete for HttpGet=====================
         public IActionResult Delete(int id)
         {
             var order = _context.Orders.Find(id);
@@ -102,9 +116,9 @@ namespace FinalProject.Controllers
             return View(order);
         }
 
-        // POST: Order/Delete/5
+        //===============Delete for HttpPost=====================
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+        
         public IActionResult DeleteConfirmed(int id)
         {
             var order = _context.Orders.Find(id);
@@ -116,7 +130,7 @@ namespace FinalProject.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-
+        //============================Confirm Order============================================================
 
 
         [HttpPost]
