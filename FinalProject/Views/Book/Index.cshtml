@@ -3,14 +3,37 @@
 
 @model IEnumerable<FinalProject.Models.Book>
 
+    <!-- this code to create bool variable use for conditioning rendering below
+         any element will be shown only with "Admin" role user
+    -->
+
 @{
     ViewData["Title"] = "Books Catalog";
     var isUserAdmin = User.Identity.IsAuthenticated && User.IsInRole("Admin");
 }
 
 <h2 class="mb-3">@ViewData["Title"]</h2>
+<p>
+    <a asp-action="Create">Create New Book</a>
+</p>
 
 <!-- Search Form -->
+
+<form asp-action="Index" method="get" class="mb-4">
+    <div class="form-row">
+        <div class="col">
+            <input type="text" name="searchTitle" class="form-control" placeholder="Search by title" value="@ViewContext.RouteData.Values["searchTitle"]" />
+        </div>
+        <div class="col">
+            <input type="text" name="searchAuthor" class="form-control" placeholder="Search by author" value="@ViewContext.RouteData.Values["searchAuthor"]" />
+        </div>
+        <div class="col">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </div>
+</form>
+
+<!--Table of Books with information-->
 
 <div class="table-responsive">
     <table class="table table-bordered table-striped table-hover">
@@ -21,7 +44,7 @@
                 <th>Author</th>
                 <th>Description</th>
                 <th>Price</th>
-                <th>Actions</th>
+                <th colspan="3">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -35,6 +58,9 @@
                     <td>@book.Price.ToString("C")</td>
                     <td>
                         <div class="btn-group" role="group" aria-label="Book Actions">
+
+                            <!-- Conditioning rendering -->
+
                             @if (isUserAdmin)
                             {
                                 <a href="/Book/Edit/@book.BookID" class="btn btn-outline-primary">Edit</a>
@@ -49,68 +75,4 @@
     </table>
 </div>
 
-
-
-@*
-
-
-@model IEnumerable<FinalProject.Models.Book>
-
-@{
-    ViewData["Title"] = "Books Catalog";
-}
-
-
-<h2 class="mb-3">@ViewData["Title"]</h2>
-
-<form asp-action="Index" method="get" asp-controller="Book">
-    <div class="form-group">
-        <label for="searchTitle" class="control-label">Title</label>
-        <input type="text" name="searchTitle" class="form-control" placeholder="Search by title"/>
-    </div>
-    <div class="form-group">
-        <label for="searchAuthor" class="control-label">Author</label>
-        <input type="text" name="searchAuthor" class="form-control" placeholder="Search by author" />
-    </div>
-    <button type="submit" class="btn btn-primary">Search</button>
-</form>
-
-<div class="table-responsive">
-    <table class="table table-bordered table-striped table-hover">
-        <thead class="thead-light">
-            <tr>
-                <th>Title</th>
-                <th>ISBN</th>
-                <th>Author</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        @foreach (var book in Model)
-        {
-            <tr>
-                <td>@book.Title</td>
-                <td>@book.ISBN</td>
-                <td>@book.Author.Name</td>
-                <td>@book.Description</td>
-                <td>@book.Price.ToString("C")</td>
-                <td>
-                    <div class="btn-group" role="group" aria-label="Book Actions">
-                        <a href="/Book/Edit/@book.BookID" class="btn btn-outline-primary">Edit</a>
-                        <a href="/Book/Details/@book.BookID"
-                        class="btn btn-outline-secondary">Details</a>
-                        <a href="/Book/Delete/@book.BookID" class="btn btn-outline-danger">Delete</a>
-                        <a href="@Url.Action("AddToCart", "Cart", new { bookId = book.BookID, quantity = 1 })">Add To Cart</a>
-                    </div>
-                </td>
-            </tr>
-        }
-        </tbody>
-    </table>
-</div>
-
-
-*@
 

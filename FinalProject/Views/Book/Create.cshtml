@@ -1,14 +1,15 @@
 ﻿
 
+
 @model FinalProject.Models.Book
 
 @{
-    ViewData["Title"] = "Edit Book";
+    ViewData["Title"] = "Create New Book";
 }
 
 <h2>@ViewData["Title"]</h2>
 
-<form asp-action="Edit" method="post">
+<form asp-action="Create" method="post">
     <!--BookID is auto created and manage by SQL. Hidden from user-->
     <input type="hidden" asp-for="BookID" />
     <div class="form-group">

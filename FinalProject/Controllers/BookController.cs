@@ -9,7 +9,7 @@ namespace FinalProject.Controllers
     
     public class BookController : Controller
     {
-
+        //=====Inject Service===========
         private readonly ApplicationDbContext _context;
         public BookController(ApplicationDbContext context)
         {
@@ -17,18 +17,7 @@ namespace FinalProject.Controllers
         }
 
 
-
-        //public IActionResult Index()
-        //{
-
-        //    var books = _context.Books
-        //                .Include(b => b.Author) // Include author information
-        //                .Where(b => !b.IsDeleted) // Filter out deleted books
-        //                .ToList();
-
-        //    return View(books);
-        //}
-
+        //===========================Index============================================
 
         public IActionResult Index(string searchTitle, string searchAuthor)
         {
@@ -51,7 +40,32 @@ namespace FinalProject.Controllers
             return View(books);
         }
 
+        //==================================Create=======================================
 
+        //============== for HttpGet ==============
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        //================= for HttpPost ============
+
+        [HttpPost]
+        
+        public IActionResult Create([Bind("Title, ISBN, Description, Price, AuthorID")] Book book) //BookID no need to bind here
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(book);
+                _context.SaveChanges(); // Synchronous save
+                return RedirectToAction("Index");
+            }
+            return View(book);
+        }
+
+        //==================================Details======================================
 
         public IActionResult Details(int id)
         {
@@ -66,9 +80,13 @@ namespace FinalProject.Controllers
 
             return View(book);
         }
+             
 
-    
 
+
+        //=====================================Edit======================================
+
+        //============Edit for HttpGet======================
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
@@ -88,10 +106,14 @@ namespace FinalProject.Controllers
             return View(book);
         }
 
+
+
+        //=================Edit for HttpGet=======================
+
         [HttpPost]
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        
         public IActionResult Edit(int id, [Bind("BookID,Title,ISBN,Description,Price,AuthorID")] Book book)
         {
             // 1. ID Mismatch Check
@@ -128,9 +150,9 @@ namespace FinalProject.Controllers
             // 6. Return View with Model
             return View(book);
         }
+        //===============================Delete===============================
 
-
-        // GET: Books/Delete/5
+        //==============Delete for HttpGet=================
         [HttpGet]
         public IActionResult Delete(int? id)
         {
@@ -149,9 +171,9 @@ namespace FinalProject.Controllers
             return View(book);
         }
 
-        // POST: Books/Delete/5
+        //===========Delete for HttpPost==============
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        
         public IActionResult Delete(int id)
         {
             var book = _context.Books.Find(id);
