@@ -114,7 +114,7 @@
                 <th>Author</th>
                 <th>Description</th>
                 <th>Price</th>
-                <th style="text-align: center;">Actions</th>
+                <th style="text-align: center;" colspan="4">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -140,7 +140,7 @@
                     </td>
                     <td>
 
-                        <a asp-action="AddToCart" asp-controller="Cart" asp-route-bookId="@book.BookID" class="btn btn-success btn-sm">Add To Cart</a>
+                        <a asp-action="AddToCart" asp-controller="Cart" asp-route-bookId="@book.BookID" class="btn btn-success btn-sm">Cart</a>
                     </td>
                 </tr>
             }

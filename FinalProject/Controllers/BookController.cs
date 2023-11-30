@@ -9,13 +9,13 @@ namespace FinalProject.Controllers
     
     public class BookController : Controller
     {
-        //=====Inject Service===========
+        //=================================Inject Service===========================
+
         private readonly ApplicationDbContext _context;
         public BookController(ApplicationDbContext context)
         {
             _context = context;
         }
-
 
         //===========================Index============================================
 
@@ -44,7 +44,7 @@ namespace FinalProject.Controllers
 
         //============== for HttpGet ==============
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Manager")]
         [HttpGet]
         public IActionResult Create()
         {
@@ -52,19 +52,34 @@ namespace FinalProject.Controllers
         }
 
         //================= for HttpPost ============
-        [Authorize(Roles = "Admin")]
+
+        [Authorize(Roles = "Admin, Manager")]
         [HttpPost]
-        
-        public IActionResult Create([Bind("Title, ISBN, Description, Price, AuthorID")] Book book) //BookID no need to bind here
+
+        public IActionResult Create([Bind("Title, ISBN, Description, Price, AuthorID")] Book book)
         {
+            // First, check if the model state is valid
             if (ModelState.IsValid)
             {
-                _context.Add(book);
-                _context.SaveChanges(); // Synchronous save
-                return RedirectToAction("Index");
+                // Check if the provided AuthorID exists in the database and not (soft) deleted
+                if (!_context.Authors.Any(a => a.AuthorID == book.AuthorID && ! a.IsDeleted))
+                {
+                    // If AuthorID does not exist, add a model error
+                    ModelState.AddModelError("AuthorID", "Invalid Author ID.");
+                }
+                else
+                {
+                    // If AuthorID is valid, proceed to add the book and save changes
+                    _context.Add(book);
+                    _context.SaveChanges(); // Synchronous save
+                    return RedirectToAction("Index");
+                }
             }
+
+            // If we got this far, something failed; redisplay the form
             return View(book);
         }
+
 
         //==================================Details======================================
 
@@ -81,15 +96,13 @@ namespace FinalProject.Controllers
 
             return View(book);
         }
-             
-
 
 
         //=====================================Edit======================================
 
         //============Edit for HttpGet======================
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Manager")]
         [HttpGet]
         public IActionResult Edit(int? id)
         {
@@ -109,9 +122,9 @@ namespace FinalProject.Controllers
 
 
 
-        //=================Edit for HttpGet=======================
+        //=================Edit for HttpGet=================
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Manager")]
 
         [HttpPost]
         
@@ -134,7 +147,7 @@ namespace FinalProject.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    // 4. Concurrency Exception Handling
+                    // 4. Concurrency Exception Handling. Refer to the method at the bottom
                     if (!BookExists(book.BookID))
                     {
                         return NotFound();
@@ -151,10 +164,10 @@ namespace FinalProject.Controllers
             // 6. Return View with Model
             return View(book);
         }
-        //===============================Delete===============================
+        //=======================================Delete========================================
 
         //==============Delete for HttpGet=================
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Manager")]
         [HttpGet]
         public IActionResult Delete(int? id)
         {
@@ -174,7 +187,7 @@ namespace FinalProject.Controllers
         }
 
         //===========Delete for HttpPost==============
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Manager")]
         [HttpPost]
         
         public IActionResult Delete(int id)
@@ -188,7 +201,7 @@ namespace FinalProject.Controllers
             return RedirectToAction("Index");
         }
 
-
+        //==============BookExists========================
 
         // Defind method to check if book is exist
         private bool BookExists(int id)

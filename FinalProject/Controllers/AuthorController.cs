@@ -5,8 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FinalProject.Controllers
 {
+    [Authorize(Roles = "Admin, Manager")]
     public class AuthorController : Controller
     {
+        //============================Service============================
+        
         private readonly ApplicationDbContext _context;
         public AuthorController(ApplicationDbContext context)
         {
@@ -40,14 +43,17 @@ namespace FinalProject.Controllers
 
             return View(author);
         }
-        //==========================Create Get============================
+
+        //=======================================Create==========================
+
+        //================Create Get================
         [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
 
-        //===========================Create Post=========================
+        //===============Create Post===============
 
         [HttpPost]
         
@@ -62,7 +68,9 @@ namespace FinalProject.Controllers
             return View(author);
         }
 
-        // ==================================Edit Get=====================
+        //===================================Edit======================================
+
+        // ====================Edit Get===================
         [HttpGet]
         public IActionResult Edit(int? id)
         {
@@ -79,7 +87,7 @@ namespace FinalProject.Controllers
             return View(author);
         }
 
-        //=================================Edit Post-----------------
+        //=================Edit Post=======================
         [HttpPost]
         
         public IActionResult Edit(int id, [Bind("AuthorID,Name,Biography")] Author author)
@@ -98,9 +106,9 @@ namespace FinalProject.Controllers
             return View(author);
         }
 
-
-        //============================Delete Get===================================
-        // GET: Author/Delete/5
+        //================================Delete======================================
+        //==============Delete Get=============
+        
         public IActionResult Delete(int? id)
         {
             if (id == null)
@@ -119,9 +127,9 @@ namespace FinalProject.Controllers
         }
 
 
-        //============================Delete Post=================================
+        //============Delete Post=========
 
-        // POST: Author/Delete/5
+        
         [HttpPost, ActionName("Delete")]
         
         public IActionResult DeleteConfirmed(int id)
@@ -133,7 +141,7 @@ namespace FinalProject.Controllers
                 _context.SaveChanges();
             }
 
-            //if need hard delete use this code
+            //if need "hard delete" use this code:
             //_context.Authors.Remove(author);           
 
             return RedirectToAction(nameof(Index));

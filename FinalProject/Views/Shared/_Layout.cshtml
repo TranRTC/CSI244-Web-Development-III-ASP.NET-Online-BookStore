@@ -5,6 +5,7 @@
 @{
    
     var isUserAdmin = User.Identity.IsAuthenticated && User.IsInRole("Admin");
+    var isUserManager = User.Identity.IsAuthenticated && User.IsInRole("Manager");
 }
 
 
@@ -45,7 +46,7 @@
                         </li>
 
                         <!-- This is coditional rendering only admin can see this links for admin purpose -->
-                        @if (isUserAdmin)
+                        @if (isUserAdmin || isUserManager)
                         {
                             <li>
                                 <a class="nav-item nav-link" asp-controller="Author" asp-action="Index">Authors</a>
@@ -63,10 +64,18 @@
                             <li>
                                 <a class="nav-item nav-link" asp-controller="Cart" asp-action="Index">Carts</a>
                             </li>
+
+                        }
+
+
+                        @if (isUserAdmin)
+                        {
                             <li>
                                 <a class="nav-item nav-link" asp-controller="UserRole" asp-action="ViewUserRoles">Roles</a>
                             </li>
-                        }                      
+                            
+                        }                                                
+                                              
 
 
                         <li class="nav-item">

@@ -49,7 +49,7 @@ else
     <div>
         <h3>Total: @Model.CartItems.Sum(i => i.Book.Price * i.Quantity).ToString("C")</h3>
         <!-- Proceed to Checkout Button (Example) -->
-        <a href="@Url.Action("Checkout", "Cart")" class="btn btn-primary">Proceed to Checkout</a>
-        <a href="@Url.Action("Index", "Book")" class="btn btn-secondary">View Books Catalogue</a>
+        <a href="@Url.Action("Checkout", "Cart")" class="btn btn-outline-primary">Proceed to Checkout</a>
+        <a href="@Url.Action("Index", "Book")" class="btn btn-outline-secondary">View Books Catalogue</a>
     </div>
 }
