@@ -1,0 +1,13 @@
+﻿@model FinalProject.Models.OrderItem
+
+<h2>OrderItem Details</h2>
+
+<div>
+    <p>OrderItemID: @Model.OrderItemID</p>
+    <p>OrderID: @Model.OrderID Customer Name:  @Model.Order.Customer</p>
+    <p>BookID: @Model.BookID, Book Title: @Model.Book.Title</p>
+    <p>Quantity: @Model.Quantity</p>
+</div>
+
+<a class="btn btn-info" asp-action="Edit" asp-route-id="@Model.OrderItemID">Edit</a> |
+<a class="btn btn-warning" asp-action="Index">Back to List</a>

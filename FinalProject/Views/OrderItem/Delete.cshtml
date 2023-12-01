@@ -1,0 +1,26 @@
+﻿
+@model FinalProject.Models.OrderItem
+
+
+<h2>Delete OrderItem</h2>
+
+<h3>Are you sure you want to delete OrderItemID @Model.OrderItemID?</h3>
+
+<div>
+    <div>
+        <strong>OrderID:</strong> @Model.OrderID
+    </div>
+    <div>
+        <strong>BookID:</strong> @Model.BookID
+    </div>
+    <div>
+        <strong>Quantity:</strong> @Model.Quantity
+    </div>
+
+    
+</div>
+
+<form asp-action="Delete">    
+    <input type="submit" value="Delete" class="btn btn-danger" />
+    <a asp-action="Index" class="btn btn-warning">Cancel</a>
+</form>

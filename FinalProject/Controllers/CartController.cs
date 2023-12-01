@@ -220,48 +220,50 @@ namespace FinalProject.Controllers
 
         public IActionResult Checkout()
         {
-            // Check if the user is authenticated
-            //if (!User.Identity.IsAuthenticated)
-            //{
-            //    TempData["ErrorMessage"] = "User not identified. Please log in.";
-            //    return LocalRedirect("~/Identity/Account/Login");
-            //}
+          
 
             // if authenticated find userId
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userId))
             {
+                // TempData is used to pass the message to the view
                 TempData["ErrorMessage"] = "User not identified. Please log in.";
 
                 //====If no direct to login page=========
                 return LocalRedirect("~/Identity/Account/Login");
             }
+            // get Name & Email of authenticated user
+            var userName = User.FindFirstValue(ClaimTypes.Name);
+            var userEmail = User.FindFirstValue(ClaimTypes.Email);
+
 
             // Synchronously get or create a customer record
-            //if there is userId find customer base on this
+            //if there is userId find customer from Customers table use userID
             var customer = _context.Customers.FirstOrDefault(c => c.UserId == userId);
-            // if no create new Customer, the customer is create with only field UserId
+            // if no customer found
             if (customer == null)
             {
-                customer = new Customer { UserId = userId };
+                
+                // Create new Customer from the login User by use Login Name, Email, userID
+                customer = new Customer { UserId = userId, Name=userName, Email=userEmail };
                 _context.Customers.Add(customer);
                 _context.SaveChanges(); // Synchronous save
             }
 
-            // Now you have CustomerId as int for the creation of Order
-            // CustomerID = customer.CustomerID; 
+             
 
-            // create variable to hold Cart items
+            // create "cart" to hold Cart items belong to the authenticated user
 
             var cart = _context.Carts
                                .Include(c => c.CartItems)
-                               .ThenInclude(ci => ci.Book) // Assuming CartItem links to a Book
+                               .ThenInclude(ci => ci.Book)
                                .FirstOrDefault(c => c.UserId == userId);
 
             // if cart have nothing
 
             if (cart == null || !cart.CartItems.Any())
             {
+                // inform the cart is empty
                 TempData["ErrorMessage"] = "Your cart is empty.";
 
                 //direct to index page of Book controller to see catalogue
@@ -275,14 +277,17 @@ namespace FinalProject.Controllers
                 // CustomerID of new Order were get from new customer above
                 CustomerID = customer.CustomerID,
                 // Initialize other properties of the order...
-                OrderItems = new List<OrderItem>()
+                OrderItems = new List<OrderItem>(),
+                // adding time for the Order it is the time of creating order
+                OrderDate = DateTime.Now
             };
 
             // Add items from cart to order
             foreach (var cartItem in cart.CartItems)
             {
                 var orderItem = new OrderItem
-                {
+                {   // orderItemID handle by sql
+                    
                     BookID = cartItem.BookID,
                     Quantity = cartItem.Quantity
                     // Initialize other properties of the order item...
@@ -290,12 +295,13 @@ namespace FinalProject.Controllers
                 order.OrderItems.Add(orderItem);
             }
 
+            // add new order to database
             _context.Orders.Add(order);
-            _context.SaveChanges(); // Synchronous save
+            _context.SaveChanges();
 
-            // Optionally, clear the cart
+            // clear the cart
             _context.CartItems.RemoveRange(cart.CartItems);
-            _context.SaveChanges(); // Synchronous save
+            _context.SaveChanges();
 
             return RedirectToAction("Details", "Order", new { id = order.OrderID });
         }

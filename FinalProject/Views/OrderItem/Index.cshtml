@@ -1,0 +1,39 @@
+﻿
+
+
+@model IEnumerable<FinalProject.Models.OrderItem>
+
+
+
+<h2 class="mb-3">OrderItems</h2>
+<p>
+    <a asp-action="Create" class="btn btn-outline-primary">Create New OrderItem</a>
+</p>
+
+<table class="table table-bordered table-striped table-hover">
+    <thead class="thead-light">
+        <tr>
+            <th>OrderItemID</th>
+            <th>OrderID</th>
+            <th>BookID</th>
+            <th>Quantity</th>
+            <th style="text-align: center;">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var orderitem in Model)
+        {
+            <tr>
+                <td>@orderitem.OrderItemID</td>
+                <td>@orderitem.OrderID</td>
+                <td>@orderitem.BookID</td>
+                <td>@orderitem.Quantity</td>
+                <td style="text-align: center;">
+                    <a asp-action="Details" asp-route-id="@orderitem.OrderItemID" class="btn btn-info btn-sm">Details</a>
+                    <a asp-action="Edit" asp-route-id="@orderitem.OrderItemID" class="btn btn-warning btn-sm">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@orderitem.OrderItemID" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

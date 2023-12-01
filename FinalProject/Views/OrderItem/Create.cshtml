@@ -1,0 +1,44 @@
+﻿@model FinalProject.Models.OrderItem
+
+
+@{
+    ViewData["Title"] = "Create OrderItem";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-action="Create" asp-controller="OrderItem" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    
+    <div class="form-group">
+        <label asp-for="OrderID" class="control-label"></label>
+        <input asp-for="OrderID" class="form-control"/>
+        <span asp-validation-for="OrderID" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="BookID" class="control-label"></label>
+        <input asp-for="BookID" class="form-control"/>
+        <span asp-validation-for="BookID" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Quantity" class="control-label"></label>
+        <input asp-for="Quantity" class="form-control"/>
+        <span asp-validation-for="Quantity" class="text-danger"></span>
+    </div>
+
+
+
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
