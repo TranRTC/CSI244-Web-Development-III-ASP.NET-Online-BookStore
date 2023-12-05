@@ -105,20 +105,53 @@ namespace FinalProject.Controllers
             }
             return View(OrderItem);
 
+
+
+
         }
 
         [HttpPost]
 
         //===========Edit Post=============
-        public IActionResult Edit([Bind("OrderItemID, OrderID, BookID, Quantity")] OrderItem orderitem)
+        public IActionResult Edit(int id, [Bind("OrderItemID, OrderID, BookID, Quantity")] OrderItem orderitem)
         {
-            if(ModelState.IsValid)
+            // is this code neccessary? This code is used to prevent the change of Id of the selected Item in URL input of browser
+            if (id != orderitem.OrderItemID)
             {
+                return NotFound();
+            }
+
+
+            if (ModelState.IsValid)
+            {
+                // Note: Check if does not exist an entry in Order table which have OrderID = 
+                // OrderID of the passing object &&
+                // Also check in Book table if does not exist an entry where BookID == BookID of the passing object
+                // Also check the order is not soft deleted
+                if (!_context.Orders.Any(o => o.OrderID == orderitem.OrderID && !o.IsDeleted))
+
+                // Error appear below the OrderID input field when it does not exist
+                {
+                    ModelState.AddModelError("OrderID", "Invalid Order ID.");
+                    return View(orderitem);
+                }
+                // Error appear below the BookID input field when it does not exist
+                if (!_context.Books.Any(b => b.BookID == orderitem.BookID && !b.IsDeleted))
+                {
+                    ModelState.AddModelError("BookID", "Invalid Book ID.");
+                    return View(orderitem);
+                }
+                // come to this far mean OrderID & BookID are checked
+
+                // Update orderitem
                 _context.Update(orderitem);
+                // save the change, check SQL OrderItem table : Select * from OrderItems
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(orderitem);
+
+
         }
 
         //================================Delete==============================
