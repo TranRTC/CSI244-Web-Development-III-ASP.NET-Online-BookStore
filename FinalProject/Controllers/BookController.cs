@@ -71,7 +71,7 @@ namespace FinalProject.Controllers
                 {
                     // If AuthorID is valid, proceed to add the book and save changes
                     _context.Add(book);
-                    _context.SaveChanges(); // Synchronous save
+                    _context.SaveChanges(); 
                     return RedirectToAction("Index");
                 }
             }
@@ -139,26 +139,21 @@ namespace FinalProject.Controllers
             // 2. Model State Validation
             if (ModelState.IsValid)
             {
-                try
+
+
+                //3. Check if the provided AuthorID exists in the database and not (soft) deleted
+                if (!_context.Authors.Any(a => a.AuthorID == book.AuthorID && !a.IsDeleted))
                 {
-                    // 3. Updating the Book
+                    //4. If AuthorID does not exist, add a model error
+                    ModelState.AddModelError("AuthorID", "Invalid Author ID.");
+                }
+                else
+                {
+                    // 5.If AuthorID is valid, proceed to update
                     _context.Update(book);
                     _context.SaveChanges();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    // 4. Concurrency Exception Handling. Refer to the method at the bottom
-                    if (!BookExists(book.BookID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                // 5. Redirect on Success
-                return RedirectToAction(nameof(Index));
+                    return RedirectToAction("Index");
+                }               
             }
 
             // 6. Return View with Model

@@ -32,10 +32,7 @@ namespace FinalProject.Models
         public Customer Customer { get; set; }  // Many-to-One with Customers
         public ICollection<OrderItem> OrderItems { get; set; }  // One-to-Many with
 
-        //public decimal CalculateTotal()
-        //{
-        //    return OrderItems.Sum(oi => oi.Quantity * oi.Book.Price); // Assuming each OrderItem has a Book with a Price
-        //}
+        
 
     }
 }

@@ -19,6 +19,8 @@ namespace FinalProject.Controllers
         }
 
         //==========================Index============================
+        // for a siplify interface. In reality the OrderItemId can be found base of Custoner and Order or date
+        // depend on the speficic rquirement
         public IActionResult Index()
         {
             var OrderItems = _context.OrderItems.Where(oi => oi.IsDeleted == false).ToList();

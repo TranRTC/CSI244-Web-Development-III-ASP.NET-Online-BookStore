@@ -29,10 +29,8 @@ namespace FinalProject.Models
         [Display(Name = "Deleted")]
         public bool IsDeleted { get; set; }
 
-        // The UserId property to link the Customer with an Identity User (Customers and AspNetUsers table)
-        
-        public string UserId { get; set; }
-               
+        // The UserId property to link the Customer with an Identity User (Customers and AspNetUsers table)        
+        public string UserId { get; set; }               
 
         // Navigation Property for Orders
         public ICollection<Order> Orders { get; set; }

@@ -76,7 +76,7 @@ namespace FinalProject.Controllers
             {
                 _context.SaveChanges();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // Log the exception and handle it
                 // For example, return an error message to the view
@@ -199,22 +199,7 @@ namespace FinalProject.Controllers
                 return null;
             }
         }
-
-
-        private int GenerateNewCartId()
-        {
-
-            // Logic to generate a unique identifier for the cart
-
-            var newCart = new Cart();
-            // Initialize any required fields of the Cart, if necessary
-
-            _context.Carts.Add(newCart);
-            _context.SaveChanges();
-
-            return newCart.CartID; // Return the auto-generated CartId
-        }
-
+           
 
         
 
