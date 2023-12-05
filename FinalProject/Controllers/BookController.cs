@@ -199,9 +199,9 @@ namespace FinalProject.Controllers
         //==============BookExists========================
 
         // Defind method to check if book is exist
-        private bool BookExists(int id)
-        {
-            return _context.Books.Any(e => e.BookID == id);
-        }
+        //private bool BookExists(int id)
+        //{
+        //    return _context.Books.Any(e => e.BookID == id);
+        //}
     }
 }

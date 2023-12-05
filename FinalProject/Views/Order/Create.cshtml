@@ -1,22 +1,17 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿
 @model FinalProject.Models.Order
 
-<h2>Edit Order</h2>
+<h2>Create Order</h2>
 
 <div>
 
 
-    <form asp-controller="Order" asp-action="Edit">
-        <input type="hidden" asp-for="OrderID" />
-
+    <form asp-controller="Order" asp-action="Create" method="post">
+        
 
         <div class="form-group">
             <label asp-for="CustomerID"></label>
-            <input asp-for="CustomerID" class="form-control" type="number"  />
+            <input asp-for="CustomerID" class="form-control" type="number" />
             <span asp-validation-for="CustomerID" class="text-danger"></span>
         </div>
 
@@ -32,12 +27,11 @@
             <input asp-for="TotalPrice" class="form-control" type="number" step="0.01" />
             <span asp-validation-for="TotalPrice" class="text-danger"></span>
         </div>
-                
-        
+
+
         <!-- Include other fields as necessary -->
-        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="submit" class="btn btn-primary">Create</button>
     </form>
 
-    <a asp-controller="Order" asp-action="Index">Cancel </a> <!--asp-route-id="@Model.OrderID">-->
-
+    
 </div>

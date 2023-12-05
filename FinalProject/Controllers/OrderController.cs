@@ -64,9 +64,22 @@ namespace FinalProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(order);
-                _context.SaveChanges();
-                return RedirectToAction(nameof(Index));
+                
+
+                //3. Check if the provided CustomerID exists in the database and not (soft) deleted
+                if (!_context.Orders.Any(o => o.CustomerID == order.CustomerID && !o.IsDeleted))
+                {
+                    //4. If AuthorID does not exist, add a model error
+                    ModelState.AddModelError("CustomerID", "Invalid Customer ID.");
+                }
+                else
+                {
+                    // 5.If AuthorID is valid, proceed to update
+                    _context.Update(order);
+                    _context.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+
             }
             return View(order);
         }
@@ -89,16 +102,29 @@ namespace FinalProject.Controllers
         
         public IActionResult Edit(int id, [Bind("OrderID,CustomerID,OrderDate,TotalPrice")] Order order)
         {
+            //1.verify the OrderID prevent from being changed in URL
             if (id != order.OrderID)
             {
                 return NotFound();
             }
 
+            //2. Validate the model
             if (ModelState.IsValid)
             {
-                _context.Update(order);
-                _context.SaveChanges();
-                return RedirectToAction(nameof(Index));
+
+                //3. Check if the provided CustomerID exists in the database and not (soft) deleted
+                if (!_context.Orders.Any(o => o.CustomerID == order.CustomerID && !o.IsDeleted))
+                {
+                    //4. If AuthorID does not exist, add a model error
+                    ModelState.AddModelError("CustomerID", "Invalid Customer ID.");
+                }
+                else
+                {
+                    // 5.If AuthorID is valid, proceed to update
+                    _context.Update(order);
+                    _context.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
             return View(order);
         }
