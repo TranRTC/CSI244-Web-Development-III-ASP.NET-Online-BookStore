@@ -2,10 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using FinalProject.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+
 namespace FinalProject.Controllers
 {
-    
-    
+
+    [Authorize(Roles = "Admin")]
     public class OrderItemController : Controller
 
     {

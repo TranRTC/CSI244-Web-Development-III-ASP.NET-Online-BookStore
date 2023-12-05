@@ -1,11 +1,13 @@
 ﻿using FinalProject.Data;
 using FinalProject.Models;
 using FinalProject.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace FinalProject.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class OrderController : Controller
     {
 
