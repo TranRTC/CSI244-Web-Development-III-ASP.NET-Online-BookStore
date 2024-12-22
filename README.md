@@ -1,6 +1,6 @@
 # Online Bookstore Management System
 
-A web application developed as a capstone project for **CSI-244: ASP.NET Programming**, showcasing the use of **ASP.NET MVC Framework** and **Entity Framework (Code-First)** to manage an online bookstore. The project includes features such as CRUD operations, authentication/authorization, and a SQL Server database.
+A web application developed as a capstone project for **CSI-244: Web Development III ASP.NET Programming**, showcasing the use of **ASP.NET MVC Framework** and **Entity Framework (Code-First)** to manage an online bookstore. The project includes features such as CRUD operations, authentication/authorization, and a SQL Server database.
 
 ---
 
